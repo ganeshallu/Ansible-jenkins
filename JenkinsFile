@@ -4,7 +4,6 @@ pipeline {
     environment {
         AWS_DEFAULT_REGION = 'us-east-1' // Replace 'your-region' with your AWS region (e.g., us-east-1)
         AWS_BUCKET_NAME = 'my-website-e60eefbe' // Replace 'your-bucket-name' with your S3 bucket name
-        AWS_S3_DEST_PATH = '' // Specify the destination path in the bucket if needed
     }
     
     stages {
@@ -23,7 +22,7 @@ pipeline {
                     [$class: 'AmazonWebServicesCredentialsBinding', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'S3_bucket']
                 ]) {
                     // Sync files to S3 bucket
-                    sh "aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
+                    sh "aws s3 sync . s3://${AWS_BUCKET_NAME}"
                 }
             }
         }
