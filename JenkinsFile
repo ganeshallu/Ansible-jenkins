@@ -22,7 +22,7 @@ pipeline {
                     [$class: 'AmazonWebServicesCredentialsBinding', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'S3_bucket']
                 ]) {
                     // Sync files to S3 bucket
-                    sh "aws s3 sync . s3://${AWS_BUCKET_NAME}"
+                    sh "aws s3 sync . s3://${AWS_BUCKET_NAME} --acl public-read"
                 }
             }
         }
