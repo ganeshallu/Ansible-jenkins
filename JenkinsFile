@@ -18,6 +18,7 @@ pipeline {
         stage('Deploy to S3') {
             steps {
                 // Install AWS CLI
+                sh 'sudo chmod -R 777 /var/lib/apt/lists/'
                 sh 'sudo apt-get update && sudo apt-get install -y awscli'
                 
                 // Sync files to S3 bucket
