@@ -8,6 +8,13 @@ pipeline {
     }
     
     stages {
+        stage('Update Packages') {
+            steps {
+                // Use sudo with the password to update packages
+                sh 'echo "jenkins" | sudo -S apt-get update'
+            }
+        }
+        
         stage('Checkout') {
             steps {
                 // Checkout the repository from GitHub
@@ -18,7 +25,7 @@ pipeline {
         stage('Deploy to S3') {
             steps {
                 // Install AWS CLI
-                sh 'sh 'echo "jenkins" | sudo apt-get update && sudo apt-get install -y awscli'
+                sh 'sudo apt-get update && sudo apt-get install -y awscli'
                 
                 // Sync files to S3 bucket
                 sh "sudo aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
