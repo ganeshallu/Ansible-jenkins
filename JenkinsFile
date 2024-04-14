@@ -6,19 +6,17 @@ pipeline {
         AWS_BUCKET_NAME = 'my-website-e60eefbe' // Replace 'your-bucket-name' with your S3 bucket name
         AWS_S3_DEST_PATH = 'websitefiles/' // Specify the destination path in the bucket if needed
     }
-        
-        stage('Checkout') {
-            steps {
-                // Checkout the repository from GitHub
-                git branch: 'main', url: 'https://github.com/ganeshallu/Docker-jenkins.git'
-            }
+    stage('Checkout') {
+        steps {
+            // Checkout the repository from GitHub
+            git branch: 'main', url: 'https://github.com/ganeshallu/Docker-jenkins.git'
         }
+    }
         
-        stage('Deploy to S3') {
-            steps {
-                // Sync files to S3 bucket
-                sh "sudo aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
-            }
+    stage('Deploy to S3') {
+        steps {
+           // Sync files to S3 bucket
+           sh "sudo aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
         }
     }
 }
