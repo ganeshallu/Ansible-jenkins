@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    
+    environment {
+        AWS_DEFAULT_REGION = 'us-east-1' // Replace 'your-region' with your AWS region (e.g., us-east-1)
+        AWS_BUCKET_NAME = 'my-website-e60eefbe' // Replace 'your-bucket-name' with your S3 bucket name
+        AWS_S3_DEST_PATH = 'websitefiles/' // Specify the destination path in the bucket if needed
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the repository from GitHub
+                git 'https://github.com/ganeshallu/Docker-jenkins.git'
+            }
+        }
+        
+        stage('Deploy to S3') {
+            steps {
+                // Install AWS CLI
+                sh 'apt-get update && apt-get install -y awscli'
+                
+                // Sync files to S3 bucket
+                sh "aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
+            }
+        }
+    }
+}
