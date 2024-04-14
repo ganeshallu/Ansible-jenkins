@@ -17,8 +17,14 @@ pipeline {
         
         stage('Deploy to S3') {
             steps {
-               // Sync files to S3 bucket
-               sh "sudo aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
+                // Set AWS credentials from Jenkins credentials
+                withCredentials([
+                    [$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'S3_bucket'],
+                    [$class: 'AmazonWebServicesCredentialsBinding', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY', credentialsId: 'S3_bucket']
+                ]) {
+                    // Sync files to S3 bucket
+                    sh "aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
+                }
             }
         }
     }
