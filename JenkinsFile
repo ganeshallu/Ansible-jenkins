@@ -18,10 +18,10 @@ pipeline {
         stage('Deploy to S3') {
             steps {
                 // Install AWS CLI
-                sh 'apt-get update && apt-get install -y awscli'
+                sh 'sudo apt-get update && sudo apt-get install -y awscli'
                 
                 // Sync files to S3 bucket
-                sh "aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
+                sh "sudo aws s3 sync . s3://${AWS_BUCKET_NAME}/${AWS_S3_DEST_PATH}"
             }
         }
     }
